@@ -8,8 +8,6 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -21,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import mx.itson.yacaiste.adapters.ReportAdapter;
-import mx.itson.yacaiste.entidades.ReportEntity;
+import mx.itson.yacaiste.modelos.ReportEntity;
 
 
 public class MainActivity extends ActionBarActivity implements AbsListView.OnScrollListener {

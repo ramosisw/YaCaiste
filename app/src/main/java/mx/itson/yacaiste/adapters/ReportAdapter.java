@@ -3,8 +3,6 @@ package mx.itson.yacaiste.adapters;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import mx.itson.yacaiste.R;
-import mx.itson.yacaiste.entidades.ReportEntity;
+import mx.itson.yacaiste.modelos.ReportEntity;
 
 
 /**

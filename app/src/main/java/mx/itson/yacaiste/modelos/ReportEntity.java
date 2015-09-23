@@ -1,4 +1,4 @@
-package mx.itson.yacaiste.entidades;
+package mx.itson.yacaiste.modelos;
 
 import java.util.Date;
 
