@@ -1,8 +1,12 @@
-package mx.itson.yacaiste;
+package mx.itson.yacaiste.vistas;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
 import android.view.Menu;
@@ -11,18 +15,25 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
 
+
+import com.soundcloud.android.crop.Crop;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import mx.itson.yacaiste.R;
 import mx.itson.yacaiste.adapters.ReportAdapter;
 import mx.itson.yacaiste.modelos.ReportEntity;
+import mx.itson.yacaiste.utils.Utils;
 
 
-public class MainActivity extends ActionBarActivity implements AbsListView.OnScrollListener {
+public class MainActivity extends AppCompatActivity implements AbsListView.OnScrollListener, View.OnClickListener {
     int headerHeight;
     int minHeaderHeight;
     int toolbarTitleLeftMargin;
@@ -34,9 +45,9 @@ public class MainActivity extends ActionBarActivity implements AbsListView.OnScr
     private ListView listView;
     // Header views
     private View headerView;
-    private FloatingActionButton headerFab;
     private ReportAdapter mAdapter;
     private List<ReportEntity> items;
+    private FloatingActionButton headerFab;
 
 
     @Override
@@ -51,7 +62,7 @@ public class MainActivity extends ActionBarActivity implements AbsListView.OnScr
         marginFab = getResources().getDimensionPixelSize(R.dimen.margin_fab);
         Display display = getWindowManager().getDefaultDisplay();
         windowHeight = display.getHeight();
-        items = new ArrayList<ReportEntity>();
+        items = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             ReportEntity report = new ReportEntity();
             report.setDireccion("Direccion numero " + i);
@@ -74,6 +85,7 @@ public class MainActivity extends ActionBarActivity implements AbsListView.OnScr
 
         imageView = (ImageView) headerView.findViewById(R.id.imageView);
         headerFab = (FloatingActionButton) findViewById(R.id.header_fab);
+        headerFab.setOnClickListener(this);
 
         // Add the headerView to your listView
         listView.addHeaderView(headerView, null, false);
@@ -84,6 +96,7 @@ public class MainActivity extends ActionBarActivity implements AbsListView.OnScr
         // ...
 
     }
+
 
     public void setToolbar() {
         toolbar = (Toolbar) findViewById(R.id.activity_my_toolbar);
@@ -167,5 +180,54 @@ public class MainActivity extends ActionBarActivity implements AbsListView.OnScr
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.header_fab:
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                // Ensure that there's a camera activity to handle the intent
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    // Create the File where the photo should go
+                    File photoFile = null;
+                    try {
+                        photoFile = Utils.createImageFile(this);
+                    } catch (IOException ex) {
+                        // Error occurred while creating the File
+                        Toast.makeText(this,ex.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    // Continue only if the File was successfully created
+                    if (photoFile != null) {
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                                Uri.fromFile(photoFile));
+                        startActivityForResult(takePictureIntent, Crop.REQUEST_PICK);
+                    }
+                }
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK) {
+            beginCrop();
+        } else if (requestCode == Crop.REQUEST_CROP) {
+            handleCrop(resultCode, data);
+        }
+    }
+
+    private void beginCrop() {
+        Uri source = Uri.fromFile(new File(Utils.getmCurrentPhotoPath()));
+        Crop.of(source, source).asSquare().start(this);
+    }
+
+    private void handleCrop(int resultCode, Intent result) {
+        if (resultCode == RESULT_OK) {
+            //resultView.setImageURI(Crop.getOutput(result));
+        } else if (resultCode == Crop.RESULT_ERROR) {
+            Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 }
