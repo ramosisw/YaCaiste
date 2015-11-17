@@ -10,6 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pkmmte.view.CircularImageView;
+
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -52,7 +54,7 @@ public class ReportAdapter extends BaseAdapter {
             view = inf.inflate(R.layout.reports_row, null);
         }
         final ReportEntity report = items.get(i);
-        ImageView imagen = ((ImageView) view.findViewById(R.id.report_photo_circle));
+        CircularImageView imagen = (CircularImageView) view.findViewById(R.id.report_photo_circle);
         imagen.setImageResource(R.drawable.avatar_contact);
         imagen.setOnClickListener(new View.OnClickListener() {
             @Override
