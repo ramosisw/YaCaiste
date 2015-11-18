@@ -1,14 +1,14 @@
 package mx.itson.yacaiste.vistas;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,8 +16,6 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
-
-
 
 import com.soundcloud.android.crop.Crop;
 
@@ -54,55 +52,57 @@ public class MainActivity extends AppCompatActivity implements AbsListView.OnScr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        setToolbar();
-        headerHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
-        minHeaderHeight = getResources().getDimensionPixelSize(R.dimen.action_bar_height);
-        toolbarTitleLeftMargin = getResources().getDimensionPixelSize(R.dimen.toolbar_left_margin);
-        marginFab = getResources().getDimensionPixelSize(R.dimen.margin_fab);
-        Display display = getWindowManager().getDefaultDisplay();
-        windowHeight = display.getHeight();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        //headerHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
+        //minHeaderHeight = getResources().getDimensionPixelSize(R.dimen.action_bar_height);
+        //toolbarTitleLeftMargin = getResources().getDimensionPixelSize(R.dimen.toolbar_left_margin);
+        //marginFab = getResources().getDimensionPixelSize(R.dimen.margin_fab);
+        //Display display = getWindowManager().getDefaultDisplay();
+        //windowHeight = display.getHeight();
         items = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             ReportEntity report = new ReportEntity();
             report.setDireccion("Direccion numero " + i);
-            report.setFecha(new Date(2015, 07, (int) Math.random() * 5));
+            report.setFecha(new Date(2015, 07, (int) (Math.random() * 5 + 1)));
             report.setNumReportes(i + 1);
             report.setRank(Math.random() * 5);
             report.setRank(i);
             items.add(report);
         }
-        mAdapter = new ReportAdapter(this, items);
-        listView = (ListView) findViewById(R.id.listview);
-        listView.setAdapter(mAdapter);
+        mAdapter = new ReportAdapter(items);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setClickable(true);
+        recyclerView.setOnClickListener(this);
         // Init the headerHeight and minHeaderTranslation values
 
-        headerHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
-        minHeaderTranslation = -headerHeight + getResources().getDimensionPixelOffset(R.dimen.action_bar_height);
+        //headerHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
+        //minHeaderTranslation = -headerHeight + getResources().getDimensionPixelOffset(R.dimen.action_bar_height);
 
         // Inflate your header view
-        headerView = getLayoutInflater().inflate(R.layout.header_view, listView, false);
+        //headerView = getLayoutInflater().inflate(R.layout.header_view, listView, false);
 
-        imageView = (ImageView) headerView.findViewById(R.id.imageView);
-        headerFab = (FloatingActionButton) findViewById(R.id.header_fab);
+        headerFab = (FloatingActionButton) findViewById(R.id.fab);
         headerFab.setOnClickListener(this);
 
         // Add the headerView to your listView
-        listView.addHeaderView(headerView, null, false);
+        //listView.addHeaderView(headerView, null, false);
 
         // Set the onScrollListener
-        listView.setOnScrollListener(this);
+        //listView.setOnScrollListener(this);
 
         // ...
 
     }
 
 
-    public void setToolbar() {
+    /*public void setToolbar() {
         toolbar = (Toolbar) findViewById(R.id.activity_my_toolbar);
         toolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
-    }
+    }*/
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements AbsListView.OnScr
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        Integer scrollY = getScrollY(view);
+        /*Integer scrollY = getScrollY(view);
 
         // This will collapse the header when scrolling, until its height reaches
         // the toolbar height
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements AbsListView.OnScr
         } else {
             toolbar.setBackgroundColor(Color.TRANSPARENT);
         }
-        imageView.setAlpha(1 - offset);
+        imageView.setAlpha(1 - offset);*/
     }
 
 
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements AbsListView.OnScr
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.header_fab:
+            case R.id.fab:
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 // Ensure that there's a camera activity to handle the intent
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements AbsListView.OnScr
                         photoFile = Utils.createImageFile(this);
                     } catch (IOException ex) {
                         // Error occurred while creating the File
-                        Toast.makeText(this,ex.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                     // Continue only if the File was successfully created
                     if (photoFile != null) {
@@ -226,6 +226,9 @@ public class MainActivity extends AppCompatActivity implements AbsListView.OnScr
     private void handleCrop(int resultCode, Intent result) {
         if (resultCode == RESULT_OK) {
             //resultView.setImageURI(Crop.getOutput(result));
+            Intent reporteNuevo = new Intent(this, ReporteNuevo.class);
+            reporteNuevo.putExtra("photo_path", Utils.getmCurrentPhotoPath());
+            startActivity(reporteNuevo);
         } else if (resultCode == Crop.RESULT_ERROR) {
             Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
         }

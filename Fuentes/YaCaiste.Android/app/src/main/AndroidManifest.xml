@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="mx.itson.yacaiste" >
 
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -44,8 +43,18 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".vistas.ReporteNuevo"
+            android:label="@string/title_activity_reporte_nuevo"
+            android:parentActivityName=".vistas.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="mx.itson.yacaiste.vistas.MainActivity" />
         </activity>
     </application>
 

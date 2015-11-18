@@ -28,4 +28,13 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_reporte_nuevo">ReporteNuevo</string>
+
+    <!-- Reporte Nuevo -->
+    <string-array name="gravedad_bache_array">
+        <item>Precaución</item>
+        <item>Grave</item>
+        <item>Peligroso</item>
+    </string-array>
+    <string name="prompt_comentarios">Comentarios</string>
 </resources>
