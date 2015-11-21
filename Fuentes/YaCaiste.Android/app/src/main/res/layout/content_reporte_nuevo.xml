@@ -74,6 +74,7 @@
                     android:layout_height="wrap_content"
                     android:entries="@array/gravedad_bache_array"
                     android:layout_marginBottom="10dp"
+                    style="@style/Widget.AppCompat.Spinner.Underlined"
                     android:hint="@string/prompt_password" />
 
 

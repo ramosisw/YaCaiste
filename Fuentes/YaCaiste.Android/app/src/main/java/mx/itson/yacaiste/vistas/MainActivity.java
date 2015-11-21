@@ -70,12 +70,10 @@ public class MainActivity extends AppCompatActivity implements AbsListView.OnScr
             report.setRank(i);
             items.add(report);
         }
-        mAdapter = new ReportAdapter(items);
+        mAdapter = new ReportAdapter(this, items);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setAdapter(mAdapter);
-        recyclerView.setClickable(true);
-        recyclerView.setOnClickListener(this);
         // Init the headerHeight and minHeaderTranslation values
 
         //headerHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
