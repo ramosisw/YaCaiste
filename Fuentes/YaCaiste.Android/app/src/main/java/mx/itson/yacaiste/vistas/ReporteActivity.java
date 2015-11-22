@@ -9,6 +9,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,6 +27,7 @@ public class ReporteActivity extends AppCompatActivity {
     MapView mapView;
     GoogleMap map;
     ReporteEntity reporteEntity;
+    private LinearLayout ll_reportes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,30 @@ public class ReporteActivity extends AppCompatActivity {
                 }
             }
         });
+
+        ll_reportes = (LinearLayout) findViewById(R.id.ll_reportes);
+
+        //Va a ir dentro de un for, de cada una de las imagenes de Reporte.GetFotografias()
+
+        final ImageView imagenDinamicaChica = (ImageView) findViewById(R.id.img_reporte_1);
+        imagenDinamicaChica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                //String url=foto.getURL();
+                String url = "https://raw.githubusercontent.com/ramosisw/Macondo/master/screenshots/device-2015-05-06-032822.png";
+                Uri imgUri = Uri.parse(url);
+                intent.setDataAndType(imgUri, "image/*");
+                startActivity(intent);
+            }
+        });
+        //Agregar la imagen dinamica a la lista -> ll_reportes
+        //ll_reportes.addView(imagenDinamicaChica);
+
+        //fin del for
+
+
         setSupportActionBar(toolbar);
         reporteEntity = new ReporteEntity();
         reporteEntity.setId(getIntent().getIntExtra("ID_REPORTE", 0));

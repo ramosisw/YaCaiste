@@ -97,7 +97,7 @@ public class ReporteNuevo extends AppCompatActivity implements View.OnClickListe
 
     public void addImage(String path) {
         FotoEntity fotoEntity = new FotoEntity();
-        fotoEntity.setPath(getIntent().getStringExtra("photo_path"));
+        fotoEntity.setPath_local(getIntent().getStringExtra("photo_path"));
         fotoEntityList.add(fotoEntity);
         ImageView new_image = new ImageView(this);
 

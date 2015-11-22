@@ -7,7 +7,8 @@ package mx.itson.yacaiste.entidades;
  */
 public class FotoEntity {
     private int id;
-    private String path;
+    private String path_local;
+    private String url;
 
     public int getId() {
         return id;
@@ -17,11 +18,19 @@ public class FotoEntity {
         this.id = id;
     }
 
-    public String getPath() {
-        return path;
+    public String getPath_local() {
+        return path_local;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setPath_local(String path_local) {
+        this.path_local = path_local;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
