@@ -1,9 +1,15 @@
 apply plugin: 'com.android.application'
 android {
     signingConfigs {
+        release {
+            keyAlias 'WayProyect'
+            keyPassword 'w4ypr0y3ct'
+            storeFile file('C:/Users/jcramos/Google Drive/AndroidDev/StoreKey/WayProyect.jks')
+            storePassword 'w4ypr0y3ct'
+        }
     }
     compileSdkVersion 23
-    buildToolsVersion '23.0.1'
+    buildToolsVersion '23.0.2'
     defaultConfig {
         applicationId 'mx.itson.yacaiste.android'
         minSdkVersion 15

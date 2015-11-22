@@ -19,5 +19,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-
+    <dimen name="size_image_reporte">200dp</dimen>
+    <dimen name="margin_image_reporte">10dp</dimen>
 </resources>
